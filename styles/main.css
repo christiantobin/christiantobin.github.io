@@ -1,0 +1,96 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Light gray background */
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    overflow: auto;
+    padding: 0 20px;
+}
+
+header {
+    background: #232f3e; /* Dark gray like AWS header */
+    color: #ff9900; /* AWS orange for contrast */
+    padding: 20px 0;
+    text-align: center;
+    animation: fadeInUp 2s ease-out;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    background: #232f3e; /* Dark gray navigation to match header */
+    padding: 10px;
+    opacity: 0; /* Set initial opacity to 0 */
+    animation: fadeInContentAndShow 2s ease-out 2s forwards; /* Animate nav with content and footer */
+}
+
+nav a {
+    color: #ff9900; /* AWS orange for links */
+    text-decoration: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+nav a:hover {
+    background: #146eb4; /* A darker orange for hover state */
+}
+
+.main-content {
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0; /* Set initial opacity to 0 */
+    animation: fadeInContentAndShow 2s ease-out 2s forwards; /* Delay the content fade-in */
+}
+
+footer {
+    background: #232f3e; /* Footer matches the header and nav */
+    color: #ff9900; /* Text in AWS orange for visibility */
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    opacity: 0; /* Set initial opacity to 0 */
+    animation: fadeInContentAndShow 2s ease-out 2s forwards; /* Delay the footer fade-in */
+}
+
+@media (max-width: 700px) {
+    nav {
+        flex-direction: column;
+    }
+}
+
+/* Keyframes for the welcome message animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Keyframes for fading in the content, nav, and footer and making them visible */
+@keyframes fadeInContentAndShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
