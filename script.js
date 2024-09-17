@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputField = document.getElementById('input');
   const outputDiv = document.getElementById('output');
 
-  const repoLink = 'https://api.github.com/repos/christiantobin/christiantobin.github.io/contents/'
+  const repoLink = 'https://api.github.com/repos/christiantobin/christiantobin.github.io/dir/contents/'
 
   let fileSystem = {};
   fetch(repoLink)
