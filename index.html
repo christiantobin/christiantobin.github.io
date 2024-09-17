@@ -1,55 +1,20 @@
+<span id="prompt">user@web:~$</span>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles/main.css" />
-        <title>My Portfolio</title>
-    </head>
+<head>
+  <meta charset="UTF-8">
+  <title>Web Terminal Emulator</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="terminal">
+    <div id="output"></div>
+    <div id="input-line">
+      <span id="prompt">$</span>
+      <input type="text" id="input" autofocus autocomplete="off">
+    </div>
+  </div>
 
-    <body>
-        <header>
-            <h1>Welcome to My Portfolio</h1>
-        </header>
-
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="resume.pdf" target="_blank">Resume</a>
-        </nav>
-
-        <div class="container">
-            <section class="main-content" id="home">
-                <h2>Home</h2>
-                <p>
-                    This is the home section of your portfolio. Introduce
-                    yourself briefly and highlight your professional interests
-                    and achievements.
-                </p>
-            </section>
-
-            <section class="main-content" id="about">
-                <h2>About Me</h2>
-                <p>
-                    Tell the world about yourself, your background, and what you
-                    do. This is a place to share your story.
-                </p>
-            </section>
-
-            <section class="main-content" id="projects">
-                <h2>Projects</h2>
-                <p>
-                    Here you can showcase your work. Include any projects you're
-                    proud of, with links to live sites or GitHub repositories.
-                </p>
-            </section>
-        </div>
-
-        <footer>
-            <p>&copy; 2023 Christian Joseph Tobin</p>
-        </footer>
-
-        <script src="scripts/main.js"></script>
-    </body>
+  <script src="script.js"></script>
+</body>
 </html>
