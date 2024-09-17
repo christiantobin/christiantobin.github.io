@@ -6,8 +6,5 @@ function factorial(n)
 	end
 end
 
-io.write("Enter a number: ")
-local input = io.read("*n")
-local result = factorial(input)
-
-print("The factorial of " .. input .. " is " .. result)
+-- Call the function directly
+print(factorial(5))
