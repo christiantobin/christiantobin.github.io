@@ -1,24 +1,24 @@
 // script.js
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   // Get references to DOM elements
-  const inputField = document.getElementById('input');
-  const outputDiv = document.getElementById('output');
-  const promptSpan = document.getElementById('prompt');
+  const inputField = document.getElementById("input");
+  const outputDiv = document.getElementById("output");
+  const promptSpan = document.getElementById("prompt");
 
   // Import Fengari modules
   const { lua, lauxlib, lualib, to_luastring, to_jsstring } = fengari;
 
   // Initialize the file system object
   const fileSystem = {
-    'documents': {
-      'resume.pdf': null,
+    "documents": {
+      "resume.pdf": null,
     },
-    'scripts': {
-      'test.lua': null,
-      'test.sh': null,
+    "scripts": {
+      "test.lua": null,
+      "test.sh": null,
     },
-    'games': {},
+    "games": {},
   };
 
   // Variables to keep track of the current working directory and path
@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPath = []; // Use an array to represent the path for easier manipulation
 
   // Base path for raw content
-  const basePath = 'https://raw.githubusercontent.com/christiantobin/christiantobin.github.io/main/dir/';
+  const basePath =
+    "https://raw.githubusercontent.com/christiantobin/christiantobin.github.io/main/dir/";
 
   // Command history for navigation
   let commandHistory = [];
@@ -34,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to update the prompt
   function updatePrompt() {
-    const pathString = '/' + currentPath.join('/');
-    promptSpan.textContent = ``;
+    const pathString = "~/" + currentPath.join("/");
+    promptSpan.textContent = `user@web${pathString}$`;
   }
 
   // Initialize the prompt
@@ -60,16 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     ls: (args) => {
       let dirToUse;
-      if (!args[0] || args[0] === '.') {
+      if (!args[0] || args[0] === ".") {
         dirToUse = currentDir;
       } else {
         let result = navigateToDir(args[0]);
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
           return result; // Error message
         }
         dirToUse = result.dir;
       }
-      return Object.keys(dirToUse).join('\n');
+      return Object.keys(dirToUse).join("\n");
     },
     cd: (args) => {
       let path = args[0];
@@ -78,27 +79,27 @@ document.addEventListener('DOMContentLoaded', () => {
         currentDir = fileSystem;
         currentPath = [];
         updatePrompt();
-        return '';
+        return "";
       }
 
       let result = navigateToDir(path);
-      if (typeof result === 'string') {
+      if (typeof result === "string") {
         return result; // Error message
       } else {
         // Update the current directory and path
         currentDir = result.dir;
         currentPath = result.path;
         updatePrompt();
-        return '';
+        return "";
       }
     },
     cat: (args) => {
       let filename = args[0];
       if (!filename) {
-        return 'Usage: cat [filename]';
+        return "Usage: cat [filename]";
       }
       let file = navigateToFile(filename);
-      if (typeof file === 'string') {
+      if (typeof file === "string") {
         return file; // Error message
       }
       if (file === null) {
@@ -106,16 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let filePath = getFilePath(filename);
         let apiUrl = basePath + filePath;
         return fetch(apiUrl)
-          .then(response => {
+          .then((response) => {
             if (!response.ok) {
-              throw new Error(`Failed to fetch ${filename}: ${response.statusText}`);
+              throw new Error(
+                `Failed to fetch ${filename}: ${response.statusText}`,
+              );
             }
             return response.text();
           })
-          .then(content => {
+          .then((content) => {
             appendOutput(content);
           })
-          .catch(error => {
+          .catch((error) => {
             appendOutput(`Error fetching file: ${error.message}`);
           });
       } else {
@@ -123,51 +126,80 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     },
     clear: () => {
-      outputDiv.innerHTML = '';
-      return '';
-    },
-    bash: (args) => {
-      // Existing bash command implementation
+      outputDiv.innerHTML = "";
+      return "";
     },
     lua: (args) => {
+      let scriptName = args[0];
+      if (!scriptName) {
+        return "Usage: lua [script]";
+      }
+      let file = navigateToFile(scriptName, fileSystem);
+      if (typeof file === "string") {
+        return file; // Error message
+      }
+      if (file === null) {
+        // Fetch and execute Lua script
+        let filePath = getFilePath(scriptName);
+        let apiUrl = path + `${filePath}`;
+        return fetch(apiUrl)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Failed to fetch ${scriptName}: ${response.statusText}`,
+              );
+            }
+            return response.text();
+          })
+          .then((scriptContent) => {
+            return executeLuaScript(scriptContent);
+          })
+          .catch((error) => {
+            return `Error fetching script: ${error.message}`;
+          });
+      } else {
+        return `lua: ${scriptName}: Is a directory`;
+      }
+    },
+    bash: (args) => {
       // Existing lua command implementation
     },
     open: (args) => {
       let filename = args[0];
       if (!filename) {
-        return 'Usage: open [filename]';
+        return "Usage: open [filename]";
       }
       let filePath = getFilePath(filename);
       let fileUrl = basePath + filePath;
       appendOutput(`Opening ${filename}...`);
-      window.open(fileUrl, '_blank');
-      return '';
+      window.open(fileUrl, "_blank");
+      return "";
     },
   };
 
   // Process user input
-  inputField.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
+  inputField.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
       const inputValue = inputField.value.trim();
       if (inputValue) {
         commandHistory.push(inputValue);
         historyIndex = commandHistory.length;
         processCommand(inputValue);
       }
-      inputField.value = '';
-    } else if (event.key === 'ArrowUp') {
+      inputField.value = "";
+    } else if (event.key === "ArrowUp") {
       if (historyIndex > 0) {
         historyIndex--;
         inputField.value = commandHistory[historyIndex];
       }
       event.preventDefault();
-    } else if (event.key === 'ArrowDown') {
+    } else if (event.key === "ArrowDown") {
       if (historyIndex < commandHistory.length - 1) {
         historyIndex++;
         inputField.value = commandHistory[historyIndex];
       } else {
         historyIndex = commandHistory.length;
-        inputField.value = '';
+        inputField.value = "";
       }
       event.preventDefault();
     }
@@ -177,15 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
   function processCommand(input) {
     appendOutput(`$ ${input}`);
 
-    const [cmd, ...args] = input.split(' ');
+    const [cmd, ...args] = input.split(" ");
     const commandFunc = commands[cmd];
 
     if (commandFunc) {
       let result = commandFunc(args);
       if (result instanceof Promise) {
-        result.then(res => {
+        result.then((res) => {
           if (res) appendOutput(res);
-        }).catch(error => {
+        }).catch((error) => {
           appendOutput(`Error: ${error}`);
         });
       } else if (result) {
@@ -201,27 +233,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Append output to the terminal
   function appendOutput(text) {
     // Escape HTML to prevent XSS
-    text = text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     outputDiv.innerHTML += `${text}\n`;
   }
 
   // Navigate to a directory based on the given path
   function navigateToDir(path) {
-    let parts = path.split('/').filter(part => part.length);
-    let current = path.startsWith('/') ? fileSystem : currentDir;
-    let newPath = path.startsWith('/') ? [] : currentPath.slice();
+    let parts = path.split("/").filter((part) => part.length);
+    let current = path.startsWith("/") ? fileSystem : currentDir;
+    let newPath = path.startsWith("/") ? [] : currentPath.slice();
 
     for (let part of parts) {
-      if (part === '.') {
+      if (part === ".") {
         continue;
-      } else if (part === '..') {
+      } else if (part === "..") {
         if (newPath.length > 0) {
           newPath.pop();
           current = getDirFromPath(newPath);
         } else {
-          return 'cd: Already at root directory';
+          return "cd: Already at root directory";
         }
-      } else if (current[part] && typeof current[part] === 'object') {
+      } else if (current[part] && typeof current[part] === "object") {
         current = current[part];
         newPath.push(part);
       } else {
@@ -233,15 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Navigate to a file based on the given path
   function navigateToFile(path) {
-    let parts = path.split('/').filter(part => part.length);
-    let current = path.startsWith('/') ? fileSystem : currentDir;
+    let parts = path.split("/").filter((part) => part.length);
+    let current = path.startsWith("/") ? fileSystem : currentDir;
 
     for (let i = 0; i < parts.length; i++) {
       let part = parts[i];
       if (current[part] !== undefined) {
         if (i === parts.length - 1) {
           return current[part];
-        } else if (typeof current[part] === 'object') {
+        } else if (typeof current[part] === "object") {
           current = current[part];
         } else {
           return `Error: ${path} is not a directory`;
@@ -257,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getDirFromPath(pathArray) {
     let current = fileSystem;
     for (let part of pathArray) {
-      if (current[part] && typeof current[part] === 'object') {
+      if (current[part] && typeof current[part] === "object") {
         current = current[part];
       } else {
         return null;
@@ -269,8 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to get the file path in the repository
   function getFilePath(filename) {
     // Build the file path based on the current directory
-    let fullParts = currentPath.concat(filename.split('/').filter(Boolean));
-    return fullParts.join('/');
+    let fullParts = currentPath.concat(filename.split("/").filter(Boolean));
+    return fullParts.join("/");
   }
 
   // Function to simulate .bashrc
@@ -280,7 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
     appendOutput(neofetchOutput);
 
     // Display welcome message
-    const welcomeMessage = 'Welcome user, thanks for visiting my site!\n- Christian\n\nPlease enter a command below or type \'help\' for a list of commands.';
+    const welcomeMessage =
+      "Welcome user, thanks for visiting my site!\n- Christian\n\nPlease enter a command below or type 'help' for a list of commands.";
     appendOutput(welcomeMessage);
   }
 
