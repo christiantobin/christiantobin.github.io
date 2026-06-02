@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Christian Tobin - Interactive Portfolio</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://code.playcanvas.com/playcanvas-stable.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Christian Tobin — Software Engineer</title>
+  <meta name="description" content="Christian Tobin — Software Engineer, IoT & Embedded Systems. AWS Certified Solutions Architect based in San Diego." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 </head>
 <body>
-  <div id="loading-screen">
-    <div class="loading-content">
-      <h1>Loading Experience...</h1>
-      <div class="loading-bar">
-        <div class="loading-progress" id="loading-progress"></div>
-      </div>
-      <p id="loading-text">Initializing...</p>
+  <main class="layout">
+
+    <!-- SIDEBAR PROFILE CARD -->
+    <aside class="sidebar" id="sidebar"><!-- filled in Task 3 --></aside>
+
+    <!-- MAIN PANEL -->
+    <div class="main">
+      <header class="hero">
+        <div class="hero-text">
+          <h1 class="hero-name">Christian Tobin</h1>
+          <p class="hero-title">Software Engineer · IoT &amp; Embedded Systems</p>
+          <p class="hero-tagline">Building scalable cloud solutions at the intersection of hardware and software.</p>
+        </div>
+        <div class="hero-globe" id="globe"><!-- three.js canvas injected here --></div>
+      </header>
+
+      <nav class="tabs" id="tabs" aria-label="Sections">
+        <button class="tab is-active" data-tab="about">About</button>
+        <button class="tab" data-tab="resume">Resume</button>
+        <button class="tab" data-tab="portfolio">Portfolio</button>
+        <button class="tab" data-tab="contact">Contact</button>
+      </nav>
+
+      <section class="panel is-active" id="about" data-panel="about"><!-- Task 5 --></section>
+      <section class="panel" id="resume" data-panel="resume"><!-- Task 6 --></section>
+      <section class="panel" id="portfolio" data-panel="portfolio"><!-- Task 7 --></section>
+      <section class="panel" id="contact" data-panel="contact"><!-- Task 8 --></section>
     </div>
-  </div>
 
-  <div id="info-overlay">
-    <div class="controls-hint">
-      <p><strong>Controls:</strong> W/S = Accelerate/Brake | A/D = Turn Left/Right | Mouse Drag = Camera | Scroll = Zoom | Click Billboards for Info</p>
-    </div>
-  </div>
+  </main>
 
-  <canvas id="application-canvas"></canvas>
-
-  <script src="scene.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
