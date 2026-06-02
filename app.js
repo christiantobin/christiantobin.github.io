@@ -29,3 +29,42 @@ function initTabs() {
 }
 
 initTabs();
+
+// --- globe mount + lifecycle ---
+import { createGlobe } from "./globe.js";
+
+const globeEl = document.getElementById("globe");
+let globe = null;
+
+function mountGlobe() {
+  if (!globeEl) return;
+  try {
+    globe = createGlobe(globeEl);
+  } catch (e) {
+    console.warn("[app] globe init failed:", e);
+    globe = null;
+  }
+  if (!globe || !globe.ok) showGlobeFallback();
+}
+
+function showGlobeFallback() {
+  globeEl.innerHTML =
+    '<div class="globe-fallback" role="img" aria-label="Stylized globe"></div>';
+}
+
+// pause when tab hidden
+document.addEventListener("visibilitychange", () => {
+  if (!globe || !globe.ok) return;
+  if (document.hidden) globe.pause(); else globe.resume();
+});
+
+// pause when scrolled offscreen
+if (globeEl && "IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => {
+    if (!globe || !globe.ok) return;
+    entries.forEach((en) => (en.isIntersecting ? globe.resume() : globe.pause()));
+  }, { threshold: 0.05 });
+  io.observe(globeEl);
+}
+
+mountGlobe();
