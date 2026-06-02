@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebGL Test</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            background: #222;
+            color: #fff;
+        }
+        canvas {
+            border: 2px solid #0f0;
+            display: block;
+            margin: 20px auto;
+        }
+        .info {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #333;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .success { color: #0f0; }
+        .error { color: #f00; }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>WebGL Support Test</h1>
+        <div id="result"></div>
+        <canvas id="glcanvas" width="640" height="480"></canvas>
+    </div>
+    <script>
+        const canvas = document.getElementById('glcanvas');
+        const result = document.getElementById('result');
+
+        try {
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+            if (gl) {
+                result.innerHTML = `
+                    <p class="success">✓ WebGL is SUPPORTED and WORKING!</p>
+                    <p><strong>Vendor:</strong> ${gl.getParameter(gl.VENDOR)}</p>
+                    <p><strong>Renderer:</strong> ${gl.getParameter(gl.RENDERER)}</p>
+                    <p><strong>WebGL Version:</strong> ${gl.getParameter(gl.VERSION)}</p>
+                    <p><strong>GLSL Version:</strong> ${gl.getParameter(gl.SHADING_LANGUAGE_VERSION)}</p>
+                `;
+
+                // Draw a simple triangle to prove it works
+                gl.clearColor(0.0, 0.5, 0.0, 1.0);
+                gl.clear(gl.COLOR_BUFFER_BIT);
+
+                const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vertexShader, `
+                    attribute vec2 position;
+                    void main() {
+                        gl_Position = vec4(position, 0.0, 1.0);
+                    }
+                `);
+                gl.compileShader(vertexShader);
+
+                const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fragmentShader, `
+                    void main() {
+                        gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+                    }
+                `);
+                gl.compileShader(fragmentShader);
+
+                const program = gl.createProgram();
+                gl.attachShader(program, vertexShader);
+                gl.attachShader(program, fragmentShader);
+                gl.linkProgram(program);
+                gl.useProgram(program);
+
+                const vertices = new Float32Array([
+                    0.0, 0.5,
+                    -0.5, -0.5,
+                    0.5, -0.5
+                ]);
+
+                const buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+                gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+                const position = gl.getAttribLocation(program, 'position');
+                gl.enableVertexAttribArray(position);
+                gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+                gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+                result.innerHTML += '<p class="success">Green triangle rendered successfully above!</p>';
+            } else {
+                result.innerHTML = '<p class="error">✗ WebGL context could not be created</p>';
+            }
+        } catch (e) {
+            result.innerHTML = `<p class="error">✗ Error: ${e.message}</p>`;
+        }
+    </script>
+</body>
+</html>
