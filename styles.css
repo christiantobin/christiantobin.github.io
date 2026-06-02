@@ -155,3 +155,14 @@ a { color: inherit; text-decoration: none; }
 .quote { margin-top: 14px; color: var(--teal); font-style: italic; }
 .quote code { background: var(--surface-2); padding: 1px 6px; border-radius: 4px; font-style: normal; }
 @media (max-width: 560px) { .about-grid { grid-template-columns: 1fr; } .portrait { max-width: 220px; } }
+
+.timeline { display: flex; flex-direction: column; gap: 12px; }
+.t-item { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 10px; padding: 14px 16px; }
+.t-item h4 { font-size: 1rem; }
+.t-org { color: var(--blue); font-size: .85rem; font-weight: 600; }
+.t-item p { color: var(--muted); font-size: .9rem; margin-top: 6px; }
+.skills { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.skill-cat h5 { font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { font-size: .8rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; }
+@media (max-width: 560px) { .skills { grid-template-columns: 1fr; } }
