@@ -562,6 +562,7 @@ git commit -m "feat: Resume panel (experience, education, skills)"
 
 **Files:**
 - Modify: `index.html` (fill `#portfolio`)
+- Modify: `styles.css` (append featured-card styles)
 
 - [ ] **Step 1: Fill the Portfolio panel with the six curated GitHub projects**
 
@@ -571,6 +572,12 @@ Replace `<section class="panel" id="portfolio" data-panel="portfolio"><!-- Task 
 <section class="panel" id="portfolio" data-panel="portfolio">
   <h3 class="section-title">Selected Projects</h3>
   <div class="section-rule"></div>
+  <a class="card featured" href="https://github.com/christiantobin/tobot-agent" target="_blank" rel="noopener">
+    <span class="featured-flag">★ Featured</span>
+    <h4>Tobot Agent</h4>
+    <p>Open-source AWS CDK template for an org-wide AI agent — Slack + webhook front doors, with pluggable MCP tools via AgentCore Gateway. Deploy your own AI agent with one stack.</p>
+    <span class="tag">TypeScript · AWS CDK · MCP</span>
+  </a>
   <div class="card-grid">
     <a class="card" href="https://github.com/christiantobin/NovuSelfHostedCDKApp" target="_blank" rel="noopener">
       <h4>Novu Self-Hosted (CDK)</h4>
@@ -607,15 +614,31 @@ Replace `<section class="panel" id="portfolio" data-panel="portfolio"><!-- Task 
 </section>
 ```
 
-- [ ] **Step 2: Verify**
+- [ ] **Step 2: Append featured-card styles to `styles.css`**
 
-`browser_click` Portfolio tab, `browser_take_screenshot`. Expected: six project cards in a responsive grid + "See all on GitHub" link. Hover a card (`browser_hover`) — border turns teal. No console errors.
+```css
+.card.featured {
+  display: block; position: relative; margin-bottom: 14px;
+  background: linear-gradient(135deg, var(--surface) 0%, #142028 100%);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 1px rgba(94,234,212,.15), 0 8px 28px rgba(0,0,0,.35);
+}
+.card.featured h4 { font-size: 1.15rem; }
+.featured-flag {
+  display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .5px;
+  color: var(--bg); background: var(--teal); border-radius: 6px; padding: 2px 8px; margin-bottom: 8px;
+}
+```
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 3: Verify**
+
+`browser_click` Portfolio tab, `browser_take_screenshot`. Expected: the **Tobot Agent** featured card spanning the top (teal border, "★ Featured" flag), then six project cards in a responsive grid + "See all on GitHub" link. Hover a card (`browser_hover`) — border turns teal. No console errors.
+
+- [ ] **Step 4: Commit**
 
 ```bash
-git add index.html
-git commit -m "feat: Portfolio panel with curated GitHub projects"
+git add index.html styles.css
+git commit -m "feat: Portfolio panel with pinned Tobot Agent + curated projects"
 ```
 
 ---

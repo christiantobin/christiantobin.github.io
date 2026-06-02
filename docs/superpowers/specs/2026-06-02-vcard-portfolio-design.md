@@ -99,7 +99,11 @@ Sourced from the GitHub profile (github.com/christiantobin) and provided photos.
 
 ### Portfolio tab
 Auto-curated from public GitHub repos. Featured project cards (title, blurb, language
-tag, GitHub link):
+tag, GitHub link). **Tobot Agent is pinned** as the flagship featured card at the top:
+
+0. **tobot-agent** *(pinned/featured)* — Open-source AWS CDK template for an org-wide
+   AI agent: Slack + webhook front doors, pluggable MCP tools via AgentCore Gateway.
+   *TypeScript · AWS CDK · MCP*
 1. **NovuSelfHostedCDKApp** — Self-hosted Novu notification infrastructure on AWS
    (ECS, RDS, S3) via CDK. *TypeScript*
 2. **AWS-Hosted-LLM-Endpoint** — Host a HuggingFace LLM on AWS SageMaker + API
