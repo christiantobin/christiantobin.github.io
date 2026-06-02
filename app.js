@@ -7,6 +7,7 @@ function activate(name) {
   if (!VALID.includes(name)) name = "about";
   document.querySelectorAll(".tab").forEach((t) => {
     t.classList.toggle("is-active", t.dataset.tab === name);
+    t.setAttribute("aria-selected", t.dataset.tab === name ? "true" : "false");
   });
   document.querySelectorAll(".panel").forEach((p) => {
     p.classList.toggle("is-active", p.dataset.panel === name);
@@ -31,14 +32,13 @@ function initTabs() {
 initTabs();
 
 // --- globe mount + lifecycle ---
-import { createGlobe } from "./globe.js";
-
 const globeEl = document.getElementById("globe");
 let globe = null;
 
-function mountGlobe() {
+async function mountGlobe() {
   if (!globeEl) return;
   try {
+    const { createGlobe } = await import("./globe.js");
     globe = createGlobe(globeEl);
   } catch (e) {
     console.warn("[app] globe init failed:", e);

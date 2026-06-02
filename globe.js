@@ -62,6 +62,14 @@ export function createGlobe(container) {
   const root = new THREE.Group();
   scene.add(root);
 
+  function onResize() {
+    const s = container.clientWidth || size;
+    renderer.setSize(s, s);
+    camera.aspect = 1;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", onResize);
+
   // faint ocean sphere for depth
   const ocean = new THREE.Mesh(
     new THREE.SphereGeometry(RADIUS * 0.99, 48, 48),
@@ -103,7 +111,6 @@ export function createGlobe(container) {
         color: i % 2 ? 0x2563eb : 0x5eead4, transparent: true, opacity: 0.5,
       });
       const line = new THREE.Line(cg, cm);
-      line.userData.phase = i;
       root.add(line);
       arcs.push(line);
     });
@@ -121,6 +128,7 @@ export function createGlobe(container) {
     lastX = e.clientX; lastY = e.clientY;
     velY = dx * 0.005; velX = dy * 0.005;
     root.rotation.y += velY; root.rotation.x += velX;
+    root.rotation.x = Math.max(-1.2, Math.min(1.2, root.rotation.x));
   }
   function onUp() { dragging = false; el.style.cursor = "grab"; }
   el.addEventListener("pointerdown", onDown);
@@ -139,6 +147,7 @@ export function createGlobe(container) {
       velX += (0.0 - velX) * 0.04;
       root.rotation.y += velY;
       root.rotation.x += velX;
+      root.rotation.x = Math.max(-1.2, Math.min(1.2, root.rotation.x));
     }
     // pulse arcs
     arcs.forEach((ln, i) => { ln.material.opacity = 0.25 + 0.35 * (0.5 + 0.5 * Math.sin(t * 1.5 + i)); });
@@ -153,6 +162,14 @@ export function createGlobe(container) {
     el.removeEventListener("pointerdown", onDown);
     window.removeEventListener("pointermove", onMove);
     window.removeEventListener("pointerup", onUp);
+    window.removeEventListener("resize", onResize);
+    scene.traverse((obj) => {
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) {
+        if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+        else obj.material.dispose();
+      }
+    });
     renderer.dispose();
     if (el.parentNode) el.parentNode.removeChild(el);
   }

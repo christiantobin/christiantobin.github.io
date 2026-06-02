@@ -41,14 +41,14 @@
         <div class="hero-globe" id="globe"><!-- three.js canvas injected here --></div>
       </header>
 
-      <nav class="tabs" id="tabs" aria-label="Sections">
-        <button class="tab is-active" data-tab="about">About</button>
-        <button class="tab" data-tab="resume">Resume</button>
-        <button class="tab" data-tab="portfolio">Portfolio</button>
-        <button class="tab" data-tab="contact">Contact</button>
+      <nav class="tabs" id="tabs" aria-label="Sections" role="tablist">
+        <button class="tab is-active" data-tab="about" role="tab" aria-selected="true" aria-controls="about" id="tab-about">About</button>
+        <button class="tab" data-tab="resume" role="tab" aria-selected="false" aria-controls="resume" id="tab-resume">Resume</button>
+        <button class="tab" data-tab="portfolio" role="tab" aria-selected="false" aria-controls="portfolio" id="tab-portfolio">Portfolio</button>
+        <button class="tab" data-tab="contact" role="tab" aria-selected="false" aria-controls="contact" id="tab-contact">Contact</button>
       </nav>
 
-      <section class="panel is-active" id="about" data-panel="about">
+      <section class="panel is-active" id="about" data-panel="about" role="tabpanel" aria-labelledby="tab-about">
   <h3 class="section-title">About Me</h3>
   <div class="section-rule"></div>
   <div class="about-grid">
@@ -69,7 +69,7 @@
     <div class="card"><h4>🤖 AI / ML</h4><p>Applied ML and AI agents with Bedrock and SageMaker.</p></div>
   </div>
 </section>
-      <section class="panel" id="resume" data-panel="resume">
+      <section class="panel" id="resume" data-panel="resume" role="tabpanel" aria-labelledby="tab-resume">
   <h3 class="section-title">Experience</h3>
   <div class="section-rule"></div>
   <div class="timeline">
@@ -98,7 +98,7 @@
     <div class="skill-cat"><h5>Tools</h5><div class="chips"><span>Neovim</span><span>Git</span><span>CMake</span><span>Jest</span><span>npm</span></div></div>
   </div>
 </section>
-      <section class="panel" id="portfolio" data-panel="portfolio">
+      <section class="panel" id="portfolio" data-panel="portfolio" role="tabpanel" aria-labelledby="tab-portfolio">
   <h3 class="section-title">Selected Projects</h3>
   <div class="section-rule"></div>
   <a class="card featured" href="https://github.com/christiantobin/tobot-agent" target="_blank" rel="noopener">
@@ -141,7 +141,7 @@
   </div>
   <p style="margin-top:18px"><a href="https://github.com/christiantobin" target="_blank" rel="noopener" style="color:var(--teal);font-weight:600">See all on GitHub →</a></p>
 </section>
-      <section class="panel" id="contact" data-panel="contact">
+      <section class="panel" id="contact" data-panel="contact" role="tabpanel" aria-labelledby="tab-contact">
   <h3 class="section-title">Get In Touch</h3>
   <div class="section-rule"></div>
   <p class="muted-p" style="margin-top:0">Open to interesting problems in IoT, embedded, and cloud. The fastest way to reach me is email.</p>
