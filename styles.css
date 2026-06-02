@@ -148,3 +148,10 @@ a { color: inherit; text-decoration: none; }
   transition: color .15s, border-color .15s;
 }
 .socials a:hover { color: var(--teal); border-color: var(--teal); }
+
+.about-grid { display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: start; }
+.portrait { width: 100%; border-radius: 12px; border: 1px solid var(--border); object-fit: cover; }
+.muted-p { color: var(--muted); margin-top: 12px; }
+.quote { margin-top: 14px; color: var(--teal); font-style: italic; }
+.quote code { background: var(--surface-2); padding: 1px 6px; border-radius: 4px; font-style: normal; }
+@media (max-width: 560px) { .about-grid { grid-template-columns: 1fr; } .portrait { max-width: 220px; } }
